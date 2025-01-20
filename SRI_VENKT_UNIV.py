@@ -17,7 +17,7 @@ chrome_options.add_argument('--window-size=1920,1080')
 chrome_options.add_argument('--ignore-certificate-errors')
 chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 chrome_options.add_argument('--disable-web-security')
-chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--headless')
 
 # Setup the web driver
 service = Service(executable_path='C:/Users/renuka/chromedriver.exe')
@@ -47,9 +47,10 @@ def save_page_screenshot(driver, filename):
     driver.save_screenshot(filename)
     print(f"Screenshot saved as: {filename}")
 
-def open_website(driver, hall_ticket_number):
+def open_website(driver, exam_link, hall_ticket_number):
     try:
-        driver.get('https://www.results.manabadi.co.in/sri-venkateswara-university-BA-BCOM-BSC-BCA-BBA-IV-SEM-April-2019-exam-results-29062019.htm')
+        # Open the provided exam link dynamically
+        driver.get(exam_link)
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, 'htno')))
 
         # Enter hall ticket number
@@ -62,37 +63,54 @@ def open_website(driver, hall_ticket_number):
         )
         submit_button.click()
 
-        WebDriverWait(driver, 80).until(EC.element_to_be_clickable((By.ID, 'btnsubmit')))
+        try:
+            # Wait for the "Aggregate Details" table or check if it's absent
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, '//th[contains(text(), "Aggregate Details")]'))
+            )
 
+            # If found, take a screenshot and save it
+            timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+            screenshot_filename = f"sri_venkt_univ_result_{timestamp}.png"
+            save_page_screenshot(driver, screenshot_filename)
 
-        # Save the page screenshot
-        timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        screenshot_filename = f"sri_venkt_univ_result_{timestamp}.png"
-        save_page_screenshot(driver, screenshot_filename)
+            # Save the filename to the database
+            save_filename_to_db('finance@mistitservices.com', '1234mkM#', screenshot_filename)
 
-        # Save filename to the database
-        save_filename_to_db('finance@mistitservices.com', '1234mkM#', screenshot_filename)
+            return {"filename": screenshot_filename, "status": True}
 
-        return screenshot_filename
+        except Exception:
+            # If "Aggregate Details" is not found, return a specific no-data status
+            return {"message": "No data found", "status": False}
+
     except Exception as e:
         print(f"Error during form submission: {str(e)}")
-        driver.quit()
-        raise
+        raise e
 
 @app.route('/generate_result', methods=['POST'])
 def generate_result():
     data = request.get_json()
+    exam_link = data.get('exam_link')  # Exam link is passed dynamically
     hall_ticket_number = data.get('hall_ticket_number')
 
-    if not hall_ticket_number:
-        return jsonify({"error": "Hall ticket number is required"}), 400
+    if not exam_link or not hall_ticket_number:
+        return jsonify({"error": "Both exam link and hall ticket number are required"}), 400
 
     driver = webdriver.Chrome(service=service, options=chrome_options)
     try:
-        screenshot_filename = open_website(driver, hall_ticket_number)
-        return jsonify({"message": "Result generated successfully", "screenshot": screenshot_filename})
+        result = open_website(driver, exam_link, hall_ticket_number)
+        if result["status"]:
+            return jsonify({"message": "Result generated successfully", "status": True, "filename": result["filename"]})
+        else:
+            return jsonify({"message": "No data found", "status": False}), 404
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        # Log the error for debugging
+        print(f"Error: {e}")
+        response_message = {
+            "message": "An issue occurred while processing your request.",
+            "status": False
+        }
+        return jsonify(response_message), 500
     finally:
         driver.quit()
 

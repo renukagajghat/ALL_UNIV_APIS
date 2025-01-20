@@ -20,6 +20,9 @@ chrome_options.add_argument('--disable-web-security')
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 chrome_options.add_experimental_option('useAutomationExtension', False)
 chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+chrome_options.add_argument("--remote-debugging-port=9222")
+# chrome_options.add_argument('--headless')
+
 
 # Setup the web driver
 service = Service(executable_path='C:/Users/renuka/chromedriver.exe')
@@ -63,7 +66,7 @@ def open_website(driver, registration_number, date_of_birth):
         date_of_birth_input.send_keys(date_of_birth)
 
         # Click the search button
-        search_button = WebDriverWait(driver, 10).until(
+        search_button = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, "button.blue-btn.btn-primary"))
         )
         search_button.click()
@@ -79,24 +82,33 @@ def open_website(driver, registration_number, date_of_birth):
         except Exception:
             pass
 
-        # Wait for the result container to load
-        WebDriverWait(driver, 20).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, 'h3.text-white'))
-        )
+        # Check for the 'Certificate Details' heading to determine if the result exists
+        try:
+            WebDriverWait(driver, 20).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, 'h3.text-white'))
+            )
+            certificate_heading = driver.find_element(By.CSS_SELECTOR, 'h3.text-white').text
+            if certificate_heading != "Certificate Details":
+                return {"error": "No data found", "status": False}
 
-        # Save the page screenshot
-        timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        screenshot_filename = f"apj_kalam_univ_result_{timestamp}.png"
-        save_page_screenshot(driver, screenshot_filename)
+            # Save the page screenshot
+            timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+            screenshot_filename = f"apj_kalam_univ_result_{timestamp}.png"
+            save_page_screenshot(driver, screenshot_filename)
 
-        # Save filename to the database
-        save_filename_to_db('finance@mistitservices.com', '1234mkM#', screenshot_filename)
+            # Save filename to the database
+            save_filename_to_db('finance@mistitservices.com', '1234mkM#', screenshot_filename)
 
-        return {"screenshot": screenshot_filename}
+            return {"screenshot": screenshot_filename, "status": True}
+        except Exception as e:
+            print(f"Error: {str(e)}")
+            return {"error": "No data found", "status": False}
+
     except Exception as e:
         print(f"Error during form submission: {str(e)}")
         driver.quit()
         raise
+
 
 @app.route('/generate_result', methods=['POST'])
 def generate_result():
@@ -110,13 +122,21 @@ def generate_result():
     driver = webdriver.Chrome(service=service, options=chrome_options)
     try:
         result = open_website(driver, registration_number, date_of_birth)
-        if result.get("captcha_error"):
-            return jsonify({"error": "Service Unavailable: CAPTCHA validation failed"}), 503
-        return jsonify({"message": "Result generated successfully", "screenshot": result.get("screenshot")})
+        if result.get("status") is False:
+            return jsonify({"error": result.get("error"), "status": False}), 404
+        
+        return jsonify({"message": "Result generated successfully", "status": True})
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     finally:
         driver.quit()
 
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+

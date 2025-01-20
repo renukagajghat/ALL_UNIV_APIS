@@ -22,7 +22,7 @@ chrome_options.add_argument('--window-size=1920,1080')
 chrome_options.add_argument('--ignore-certificate-errors')
 chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 chrome_options.add_argument('--disable-web-security')
-# chrome_options.add_argument('--headless')
+chrome_options.add_argument('--headless')
 
 # Setup the web driver
 service = Service(executable_path='C:/Users/renuka/chromedriver.exe')
@@ -63,7 +63,7 @@ def save_filename_to_db(username, password, filename, name):
             connection.close()
 
 def solve_captcha_with_anticaptcha(captcha_image_path, max_attempts=3):
-    api_key = 'e6f3790f6087da25fb817d1c5df8a657'
+    api_key = '09e4c1ee0134815fde031aa2fd2a2063'
     for attempt in range(max_attempts):
         try:
             with open(captcha_image_path, 'rb') as captcha_file:
@@ -204,11 +204,28 @@ def generate_result_data():
         )
 
         return jsonify({
+            "status":True,
             "message": "Verification completed successfully!",
             "name": result_data['name']
         })
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        error_message = str(e)
+        if "CAPTCHA" in error_message.upper():  # Detect if the error is related to CAPTCHA
+            captcha_failed = True
+
+        # Log the error for debugging
+        print(f"Error: {e}")
+        
+        # Provide a user-friendly error message
+        response_message = {
+            "message": "An issue occurred while processing your request.",
+            "status": False
+        }
+
+        if captcha_failed:
+            response_message["message"] += " CAPTCHA is not working, so this code failed. Please try again later."
+        
+        return jsonify(response_message), 500
     finally:
         driver.quit()
 
