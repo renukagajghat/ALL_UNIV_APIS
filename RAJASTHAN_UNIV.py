@@ -861,30 +861,6 @@ def save_page_screenshot(driver, filename):
     driver.save_screenshot(filename)
     print(f"Screenshot saved as {filename}")
 
-
-# # Define a function to determine the department based on the exam name
-# def get_department_for_exam(exam_name):
-#     """Map exam name to the appropriate department."""
-#     if "B. A" in exam_name or "M. A" in exam_name:
-#         return "Arts"
-#     elif "B. Com." in exam_name or "M. Com" in exam_name or "BBA" in exam_name or "MBA" in exam_name:
-#         return "Commerce"
-#     elif "B. Ed" in exam_name or "M. Ed" in exam_name:
-#         return "Education"
-#     elif "B. Tech" in exam_name or "M. Tech" in exam_name or "B. E." in exam_name:
-#         return "Engineering"
-#     elif "BFA" in exam_name or "MFA" in exam_name:
-#         return "Fine Arts"
-#     elif "LL. B" in exam_name or "LL. M" in exam_name:
-#         return "Law"
-#     elif "BBA" in exam_name or "MBA" in exam_name:
-#         return "Management"
-#     elif "MBBS" in exam_name or "BDS" in exam_name or "B.Pharm" in exam_name or "M.Pharm" in exam_name:
-#         return "Medical & Pharmaceutics"
-#     elif "B. Sc" in exam_name or "M. Sc" in exam_name or "Biotech" in exam_name:
-#         return "Science"
-#     return None  # Return None if no match is found
-
 def close_modal_if_present(driver):
     """Close any modal overlay if it exists."""
     try:
@@ -897,69 +873,9 @@ def close_modal_if_present(driver):
     except Exception as e:
         print("No modal found or error while closing:", e)
 
-# def select_all_results(driver):
-#     """Select the 'All' option from the ResultList dropdown."""
-#     try:
-#         # Locate the dropdown element
-#         dropdown = WebDriverWait(driver, 10).until(
-#             EC.presence_of_element_located((By.NAME, "ResultList_length"))
-#         )
-        
-#         # Use Select to choose the 'All' option
-#         select = Select(dropdown)
-#         select.select_by_value("-1")  # Select the 'All' option
-        
-#         # Log the selection action
-#         print("Selected 'All' from the dropdown.")
-        
-#         # Wait for the page to reload or update with all results
-#         WebDriverWait(driver, 10).until(
-#             EC.presence_of_all_elements_located((By.XPATH, "//table[@id='ResultList']//tbody//tr"))
-#         )
-#         print("All results are now displayed on a single page.")
-#     except Exception as e:
-#         print(f"Error while selecting 'All' from the dropdown: {e}")
-
-# def navigate_to_exam_page(driver, exam_link):
-#     """Navigate to the provided exam link."""
-#     try:
-#         # Wait for all rows in the results table to load
-#         rows = WebDriverWait(driver, 10).until(
-#             EC.presence_of_all_elements_located((By.XPATH, "//table[@id='ResultList']//tbody//tr"))
-#         )
-
-#         # Log available links
-#         print("Available exam links:")
-#         for row in rows:
-#             link_element = row.find_element(By.XPATH, ".//a")
-#             href = link_element.get_attribute("href")
-#             print(f"Found link: {href}")  # Log the actual href
-
-#         # Iterate through the rows to find the matching link
-#         for row in rows:
-#             link_element = row.find_element(By.XPATH, ".//a")
-#             href = link_element.get_attribute("href")
-#             if exam_link in href:
-#                 print(f"Exam link '{exam_link}' found. Clicking on it using JavaScript.")
-
-#                 # Use JavaScript to click the link
-#                 driver.execute_script("arguments[0].click();", link_element)
-#                 return True
-
-#         # If the loop completes and no link matches
-#         print(f"Exam link '{exam_link}' not found on the current page.")
-#         return False
-
-#     except Exception as e:
-#         print(f"Error while navigating to the exam link: {e}")
-#         return False
-
-
 @app.route('/generate_result', methods=['POST'])
 def generate_result():
     """Generates result by passing the exam name, year, and roll number."""
-    # exam_name = request.json.get('exam_name')  # The exam name 
-    # exam_year = request.json.get('exam_year')  # The exam year 
     exam_link = request.json.get('exam_link')
     roll_number = request.json.get('roll_number')  # The student's roll number
     
@@ -975,31 +891,6 @@ def generate_result():
         # Close any modal if present
         close_modal_if_present(driver)
         
-        # Wait for the page to load and locate the "Undergraduate" link
-        # undergraduate_link = WebDriverWait(driver, 10).until(
-        #     EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Undergraduate')]"))
-        # )
-        # undergraduate_link.click()
-
-        # # Wait for the branch dropdown to appear and select a branch based on the exam name
-        # department = get_department_for_exam(exam_name)
-        # if department is None:
-        #     return jsonify({"error": "Unable to map the exam to a department"}), 400
-        
-        # # Locate the dropdown menu and select the appropriate department
-        # branch_dropdown = WebDriverWait(driver, 10).until(
-        #     EC.presence_of_element_located((By.CSS_SELECTOR, '.dropdown-menu'))
-        # )
-        
-        # # Find the department option based on the department logic
-        # department_option = branch_dropdown.find_element(By.XPATH, f"//a[contains(text(), '{department}')]")
-        # department_option.click()
-
-        # # Select 'All' from the dropdown to show all exams
-        # select_all_results(driver)
-
-        # # Now, navigate through the pages to find the correct exam
-        # exam_found = navigate_to_exam_page(driver, exam_link)
 
         if exam_link:
             # Wait for the result page to load and find the roll number input field
