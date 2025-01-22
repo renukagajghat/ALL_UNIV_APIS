@@ -18,7 +18,7 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument('--ignore-certificate-errors')
 chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 chrome_options.add_argument('--disable-web-security')
-# chrome_options.add_argument('--headless')
+chrome_options.add_argument('--headless')
 
 # Setup the webdriver
 service = Service('C:/Users/renuka/chromedriver.exe')
