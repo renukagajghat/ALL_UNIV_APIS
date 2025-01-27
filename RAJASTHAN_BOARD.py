@@ -1,3 +1,4 @@
+
 from flask import Flask, request, jsonify
 from datetime import datetime
 from selenium import webdriver
@@ -6,6 +7,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+
 import mysql.connector
 import time
 import os
@@ -19,6 +22,7 @@ chrome_options.add_argument('--window-size=1920,1080')
 chrome_options.add_argument('--ignore-certificate-errors')
 chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 chrome_options.add_argument('--disable-web-security')
+
 # chrome_options.add_argument('--headless')
 
 
@@ -83,21 +87,29 @@ def open_website(driver, exam_course, exam_year, roll_number):
         driver.execute_script("arguments[0].scrollIntoView(true);", submit_button)
         driver.execute_script("arguments[0].click();", submit_button)
 
-        time.sleep(5)
+        # Wait for the "BOARD OF SECONDARY EDUCATION, RAJASTHAN" heading to appear
+        try:
+            wait.until(EC.presence_of_element_located((By.XPATH, "//td[font[contains(text(), 'BOARD OF SECONDARY EDUCATION, RAJASTHAN')]]")))
+            # Take a screenshot of the page if heading is found
+            result_screenshot_path = f"uploads/rajasthan_board_result_{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.png"
+            driver.save_screenshot(result_screenshot_path)
+            print(f"Screenshot saved at {result_screenshot_path}")
 
+            return {
+                "screenshot_path": result_screenshot_path
+            }
 
-        # Take a screenshot of the page
-        result_screenshot_path = f"uploads/rajasthan_board_result_{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.png"
-        driver.save_screenshot(result_screenshot_path)
-        print(f"Screenshot saved at {result_screenshot_path}")
-
-        return {
-            "screenshot_path": result_screenshot_path
-        }
+        except TimeoutException:
+            # If the heading is not found, return a message
+            print("No data found - 'BOARD OF SECONDARY EDUCATION, RAJASTHAN' heading not found.")
+            return {
+                "error": "No data found"
+            }
 
     except Exception as e:
         print(f"Error during website interaction: {e}")
         raise
+
 
 
 @app.route('/generate_result', methods=['POST'])
