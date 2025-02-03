@@ -18,7 +18,7 @@ import mysql.connector
 import os
 
 # Set the path to the Tesseract OCR executable (update with your path)
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+#pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 # Initialize the spell checker
 spell = Speller()
@@ -32,11 +32,11 @@ chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_argument("--ignore-certificate-errors")
 chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 chrome_options.add_argument("--start-maximized")
-# chrome_options.add_argument("--headless")  # Optional: Run in headless mode
-chrome_options.add_argument("--disable-web-security")  # Optional: Disable web security
+chrome_options.add_argument("--headless")  
+chrome_options.add_argument("--disable-web-security")  
 
-# Setup the WebDriver (ensure you have the correct path to ChromeDriver)
-service = Service(executable_path='C:/Users/renuka/chromedriver.exe')
+service = Service(executable_path='/usr/local/bin/chromedriver')  # Adjust path to chromedriver
+# service = Service(executable_path='C:/Users/renuka/chromedriver.exe')
 
 app = Flask(__name__)
 
@@ -48,35 +48,35 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-def save_filename_to_db(username, password, filename):
-    """Save login details and the filename into the database."""
-    try:
-        # Connect to the database
-        connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="education_schema"
-        )
-        cursor = connection.cursor()
+# def save_filename_to_db(username, password, filename):
+#     """Save login details and the filename into the database."""
+#     try:
+#         # Connect to the database
+#         connection = mysql.connector.connect(
+#             host="localhost",
+#             user="root",
+#             password="",
+#             database="education_schema"
+#         )
+#         cursor = connection.cursor()
 
-        # Insert data into the table, including the filename
-        insert_query = """
-        INSERT INTO login_details (login_value, password_value, filename)
-        VALUES (%s, %s, %s)
-        """
-        cursor.execute(insert_query, (username, password, filename))
+#         # Insert data into the table, including the filename
+#         insert_query = """
+#         INSERT INTO login_details (login_value, password_value, filename)
+#         VALUES (%s, %s, %s)
+#         """
+#         cursor.execute(insert_query, (username, password, filename))
 
-        # Commit the transaction
-        connection.commit()
-        print(f"Data saved successfully with file {filename}")
+#         # Commit the transaction
+#         connection.commit()
+#         print(f"Data saved successfully with file {filename}")
 
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-    finally:
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
+#     except mysql.connector.Error as err:
+#         print(f"Error: {err}")
+#     finally:
+#         if connection.is_connected():
+#             cursor.close()
+#             connection.close()
 
 def save_page_html(driver, filename):
     """Save the page HTML source."""
@@ -105,12 +105,12 @@ def login_to_website(driver, username, password):
 
     # Step 3: Handle CAPTCHA
     captcha_input = driver.find_element(By.NAME, 'captcha_code')
-    driver.save_screenshot('full_page_screenshot.png')
+    driver.save_screenshot('uploads/full_page_screenshot.png')
     location = captcha_input.location_once_scrolled_into_view
     size = captcha_input.size
 
     # Process CAPTCHA image
-    image = Image.open('full_page_screenshot.png')
+    image = Image.open('uploads/full_page_screenshot.png')
     left = location['x']
     top = location['y']
     right = left + size['width']
@@ -229,11 +229,11 @@ def enter_degree_details(driver, degree, year, seat_no):
         save_page_html(driver, "submission_result.html")
         # Get current timestamp in the desired format
         timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")  # Format: "YYYY-MM-DD-HH-MM-SS"
-        screenshot_filename = f"jawaharlal_nehru_univ_result_{timestamp}.png"  # Append form # Append timestamp to filename
+        screenshot_filename = f"uploads/jawaharlal_nehru_univ_result_{timestamp}.png"  # Append form # Append timestamp to filename
         save_page_screenshot(driver, screenshot_filename)
 
         # Save the filename and other details to the database
-        save_filename_to_db('finance@mistitservices.com', '1234mkM#', screenshot_filename)
+        # save_filename_to_db('finance@mistitservices.com', '1234mkM#', screenshot_filename)
 
     except Exception as e:
         print(f"Error during form submission: {str(e)}")  # Capture and print any exceptions that occur
@@ -322,7 +322,7 @@ def upload_pdf():
         file = request.files['file']
         
         if file.filename == '':
-            return jsonify({"error": "No selected file"}), 400
+            return jsonify({"message": "No selected file", "status": False, "error_message": "No file selected"}), 400
 
         if file and file.filename.endswith('.pdf'):
             # Save the uploaded file
@@ -341,8 +341,7 @@ def upload_pdf():
 
                 # If data is not found in PDF, use the Postman data
                 if not university_name or not degree or not year or not hall_ticket_number:
-                    return jsonify({"error": "No data found in PDF."}), 400
-
+                    return jsonify({"message": "Required data not found in PDF or Postman.", "status": False, "error_message": "Missing data"}), 400
 
             else:
                 # If all required details were extracted from the PDF, use them directly
@@ -372,10 +371,27 @@ def upload_pdf():
                     select_university(driver, university_name)
                     enter_degree_details(driver, degree, year, hall_ticket_number)
 
-                    return jsonify({"message": "Result generated successfully!"})
+                    # Get the screenshot file name with timestamp
+                    timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+                    screenshot_filename = f"uploads/jawaharlal_nehru_univ_result_{timestamp}.png"
+
+                    # Save screenshot after form submission
+                    save_page_screenshot(driver, screenshot_filename)
+
+                    # Return success message with screenshot
+                    return jsonify({
+                        "message": "Result generated successfully!",
+                        "status": True,
+                        "screenshot_file": screenshot_filename
+                    })
 
                 except Exception as e:
-                    return jsonify({"error": str(e)}), 500
+                    # Return failure message with error details
+                    return jsonify({
+                        "message": "An error occurred during form submission.",
+                        "status": False,
+                        "error_message": str(e)
+                    }), 500
                 finally:
                     driver.quit()
 
@@ -401,16 +417,39 @@ def upload_pdf():
             select_university(driver, university_name)
             enter_degree_details(driver, degree, year, hall_ticket_number)
 
-            return jsonify({"message": "Result generated successfully!"})
+            # Get the screenshot file name with timestamp
+            timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            screenshot_filename = f"uploads/jawaharlal_nehru_univ_result_{timestamp}.png"
+
+            # Save screenshot after form submission
+            save_page_screenshot(driver, screenshot_filename)
+
+            # Return success message with screenshot
+            return jsonify({
+                "message": "Result generated successfully!",
+                "status": True,
+                "screenshot_file": screenshot_filename
+            })
 
         except Exception as e:
-            return jsonify({"error": str(e)}), 500
+            # Return failure message with error details
+            return jsonify({
+                "message": "An error occurred during form submission.",
+                "status": False,
+                "error_message": str(e)
+            }), 500
         finally:
             driver.quit()
 
     else:
-        return jsonify({"error": "No file or form data provided"}), 400
+        return jsonify({
+            "message": "No file or form data provided",
+            "status": False,
+            "error_message": "Missing file or form data"
+        }), 400
+
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="172.16.11.39", port=5002)
+    # app.run(debug=True)
