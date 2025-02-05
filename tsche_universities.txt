@@ -1,0 +1,268 @@
+Cleaned dropdown item: 'list of universities covered under this scheme: click on the name of the university of your choice'
+Cleaned dropdown item: 'dr. b. r. ambedkar open university hyderabad'
+Cleaned dropdown item: 'jawaharlal nehru technological university hyderabad'
+Cleaned dropdown item: 'kakatiya university warangal'
+Cleaned dropdown item: 'mahatma gandhi university nalgonda'
+Cleaned dropdown item: 'osmania university hyderabad'
+Cleaned dropdown item: 'palamuru university mahabubnagar'
+Cleaned dropdown item: 'rajiv gandhi university of knowledge technologies basara'
+Cleaned dropdown item: 'satavahana university karimnagar'
+Cleaned dropdown item: 'telangana university nizamabad'
+Cleaned dropdown item: 'jawaharlal nehru architecture and fine arts university hyderabad'
+Cleaned dropdown item: 'potti sreeramulu telugu university hyderabad'
+Cleaned dropdown item: 'prof. jayashankar state agriculture university rajendranagar hyd.'
+Cleaned dropdown item: 'sri pv narsimha rao state state university of veterinary animal and fishery sciences hyd.'
+Cleaned dropdown item: 'sri konda laxman telangana state horticulture university budwel hyd.'
+Cleaned dropdown item: 'sri. kaloji narayan rao university of health sciences'
+
+
+
+
+
+
+
+dropdown values
+1)B.R. Ambedkar Open University, Hyderabad
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="ug_yws">B.A. B.Com B.Sc. Year wise Scheme</option>
+				<option value="ug_cbcs">B.A. B.Com B.Sc. CBCS</option>
+				<option value="pg_yws">P.G. Degrees Year wise scheme</option>
+				<option value="pg_cbcs">P.G. Degrees CBCS scheme</option>
+			</select>
+
+
+2)jawaharlal nehru technological university hyderabad
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="bpharm">B.Pharmacy. </option>
+  				<option value="btech">B.Tech. </option>
+  				<option value="mba">M.B.A. </option>
+  				<option value="mca">MCA. </option>
+  				<option value="mpharm">M.Pharmacy</option>
+  				<option value="mtech">M.Tech. </option>
+			</select>
+
+
+3)Kakatiya University, Warangal.
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="ba_yws">B.A.     :: Bachellor of Arts (YWS)</option>
+  				<option value="ba_cbcs">B.A.     :: Bachellor of Arts (CBCS)</option>
+				<option value="bbm_yws">B.B.M.   :: Bachellor of Business Management (YWS)</option>
+				<option value="bbm_cbcs">B.B.M.   :: Bachellor of Business Management (CBCS)</option>
+				<option value="bcom_yws">B.Com.   :: Bachellor of Commerce (YWS)</option>
+				<option value="bcom_cbcs">B.Com.   :: Bachellor of Commerce (CBCS)</option>
+				<option value="bsc_yws">B.Sc.    :: Bachellor of Science (YWS)</option>
+				<option value="bsc_cbcs">B.Sc.    :: Bachellor of Scince (CBCS)</option>
+				<option value="bpharm_all">B.Pharm. :: Bachellor of Pharmacy</option>
+				<option value="btech_all">B.Tech.  :: Bachellor of Technology</option>
+				<option value="mba_all">MBA      :: Master of Business Administration</option>
+				<option value="mca_all">MCA      :: Master of Computer Applications</option>
+
+			</select>
+
+4)mahatma gandhi university nalgonda
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="ba">B.A.     :: Bachellor of Arts</option>
+				<option value="bbm">B.B.M.   :: Bachellor of Business Management</option>
+				<option value="bcm">B.Com.   :: Bachellor of Commerce</option>
+				<option value="bsc">B.Sc.    :: Bachellor of Science</option>
+				<option value="bed">B.Ed.    :: Bachellor of Education</option>
+				<option value="btech">B.Tech.  :: Bachellor of Technology</option>
+				<option value="bpharm">B.Pharm. :: Bachellor of Pharmacy</option>
+				<option value="mba">MBA      :: Master of Business Administration</option>
+				<option value="mca">MCA      :: Master of Computer Applications</option>
+
+			</select>
+
+5)osmania university hyderabad
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="ba_cbcs">B.A. (CBCS)</option>
+  				<option value="ba_yws">B.A. (YWS)</option>
+  				<option value="bba_cbcs">B.B.A. CBCS)</option>
+  				<option value="ba_yws">B.B.A. (YWS)</option>
+  				<option value="bcom_cbcs">B.Com. (CBCS)</option>
+  				<option value="bcom_yws">B.Com. (YWS)</option>
+  				<option value="bsc_cbcs">B.Sc. CBCS)</option>
+  				<option value="bsc_yws">B.Sc. (YWS)</option>
+  				<option value="bca_cbcs">B.C.A. CBCS)</option>
+  				<option value="bca_yws">B.C.A. (YWS)</option>
+				<option value="be_cbcs">B.E. (CBCS)</option>
+				<option value="be_yws">B.E. (YWS)</option>
+				<option value="bed_cbcs">B.Ed. (CBCS) G</option>
+  				<option value="mba_all">M.B.A. CBCS &amp; YWS</option>
+  				<option value="mca_cbcs">M.C.A. CBCS </option>
+  				<option value="mca_yws">M.C.A. YWS</option>
+  				<option value="pg_all">All PG Courses CBCS &amp; YWS</option>
+			</select>
+6)palamuru university mahabubnagar
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="ba">B.A.     :: Bachellor of Arts</option>
+  				<option value="bba">B.B.A    :: Bachellor of Business Admn</option>
+				<option value="bcm">B.Com.   :: Bachellor of Commerce</option>
+				<option value="bsc">B.Sc.    :: Bachellor of Science</option>
+				<option value="bed">B.Ed.    :: Bachellor of Education</option>
+  				<option value="bpharm">B.Pharm. :: Bachellor of Pharmacy</option>
+  				<option value="pharmd-6">PharmD  :: PharmD-6yrs</option>
+  				<option value="pg">PG       :: All PG Courses</option>
+
+
+			</select>
+
+7)rajiv gandhi university of knowledge technologies basara --  and in enter hall ticket number there is enter ID number for this univ 
+alredy use above so no need to take again
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="btech">B.Tech</option>
+  				<option value="mtech">M.Tech</option>
+			</select>
+
+8)satavahana university karimnagar
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="bed_yws">B.Ed. Year wise Scheme</option>
+  				<option value="bpharm_yws">B.Pharmacy YWS</option>
+  				<option value="llb_yws">LL.B YWS</option>
+  				<option value="ug_yws">B.A. B.Com B.Sc. Year Wise Scheme</option>
+				<option value="ug_cbcs">B.A. B.Com B.Sc. CBCS</option>
+				<option value="pg_yws">P.G. Degrees Year wise scheme</option>
+				<option value="pg_cbcs">P.G. Degrees CBCS scheme</option>
+			</select>
+9)telangana university nizamabad
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="ba_cbcs">B.A. (CBCS) </option>
+  				<option value="ba_yws">B.A. (YWS) </option>
+  				<option value="bba_cbcs">B.B.A. CBCS) </option>
+  				<option value="bba_yws">B.B.A. (YWS)</option>
+  				<option value="bcom_cbcs">B.Com. (CBCS) </option>
+  				<option value="bcom_yws">B.Com. (YWS) </option>
+  				<option value="bsc_cbcs">B.Sc. CBCS) </option>
+  				<option value="bsc_yws">B.Sc. (YWS)</option>
+  				<option value="bsw_yws">B.S.W. (YWS)</option>
+  				<option value="ma">M.A. All Subjects</option>
+  				<option value="mba">M.B.A. </option>
+  				<option value="mca">M.C.A.  </option>
+  				<option value="mcom">M.Com.  </option>
+  				<option value="msc">M.Sc. All Subjects </option>
+    
+			</select>
+
+10)jawaharlal nehru architecture and fine arts university hyderabad
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="barch">B.Arch. :: Bachellor of Architecture</option>
+  				<option value="bdesign">B.Desi. :: Bachellor of Design</option>
+  				<option value="btech">B.Tech. :: Bachellor of Technology</option>
+  				<option value="bfa">B.F.A.  :: Bachellor of Fine Arts</option>
+  				<option value="march_mtech">M.Tech. :: Master of Architecture/ Technology</option>
+			</select>
+11)potti sreeramulu telugu university hyderabad
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="mpafa">MPA Folk Arts  </option>
+  				<option value="ma_cj">M.A. CJ </option>
+  				<option value="ma_music">M.A. Music </option>
+  				<option value="ma_astro">M.A. Astrology </option>
+  				<option value="mpa_kuchi">M.P.A. Kuchipudi </option>
+  				<option value="mpa_andhra">M.P.A. Andhra Natyam </option>
+  				<option value="ma_telugu">M.A. Telugu </option>
+  				<option value="ma_telugu">M.A. Telugu </option>
+  				<option value="ma_lingquistics">M.A. Linguistics </option>
+  				<option value="mpa_theatre">M.P.A. Theatre Arts </option>
+    
+			</select>
+12)prof. jayashankar state agriculture university rajendranagar hyd.
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="bsc_ag">B.Sc. Agriculture</option>
+  				<option value="bsc_cabm">B.Sc. CA &amp; BM</option>
+  				<option value="bsc_hon_ag">B.Sc. (Hon) Agriculture</option>
+  				<option value="bsc_hon_com">B.Sc. (Hon) Comunity Science</option>
+				<option value="bsc_hon_fsn">B.Sc. (Hon) Food Sci &amp; Nutrition</option>
+				<option value="bsc_hon_ft">B.Sc. (Hon) Food Technology</option>
+				<option value="bsc_hon_hs">B.Sc. (Hon) Home Science</option>
+				<option value="btech_ag">B.Tech. Ag. Engineering</option>
+				<option value="btech_ftech">B.Tech. Food Technology</option>
+			</select>
+
+
+13)sri pv narsimha rao state state university of veterinary animal and fishery sciences hyd.
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="bfsc">B.F.Sc</option>
+  				<option value="btech">B.Tech. :: Bachellor of Technology</option>
+  				<option value="bvsc_ah">B.V.Sc. &amp; A.H.</option>
+  				<option value="pg">PG: M.V.Sc.</option>
+  				<option value="phd">Ph.D : Doctor of Philosophy</option>
+			</select>
+14)sri konda laxman telangana state horticulture university budwel hyd.
+
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="bsc">B.Sc. </option>
+				<option value="msc">M.Sc. CBCS</option>
+				<option value="phd">Ph.D.</option>
+			</select>
+15)sri. kaloji narayan rao university of health sciences
+<select name="degree">
+				<option value="">Select Degree</option>
+  				<option value="applied_nutrition">Applied Nutrition</option>
+  				<option value="bds">B.D.S.</option>
+  				<option value="bpt">B.P.T.</option>
+  				<option value="bsc_mlt">B.Sc. MLT</option>
+  				<option value="bsc_nursing">B.Sc. Nursing</option>
+  				<option value="mbbs">M.B.B.S.</option>
+  				<option value="md_ayurveda">M.D. Ayurveda</option>
+  				<option value="md_homeo">M.D. Homeopathy</option>
+  				<option value="md_ms">M.D. / M.S.</option>
+  				<option value="md_unani">M.D. Unani</option>
+  				<option value="ms_old">M.S. Old Regulation</option>
+  				<option value="mph_cmm">M.P.H. CMM</option>
+  				<option value="mpt_cmm">M.P.T. CMM.</option>
+  				<option value="msc_nursing_cmm">M.Sc. Nursing CMM</option>
+  				<option value="pdf_cmm">PDF CMM</option>
+  				<option value="pg_diploma">P.G. Diploma</option>
+  				<option value="post_basic_nursing">Post Basic Nursing</option>
+  				<option value="super_speciality">Super Speciality</option>
+  				<option value="ug_ayush">UG Ayush</option>
+			</select>
+
+*******************output comes for below universities data********************************
+
+{"university_name":"sri. kaloji narayan rao university of health sciences",
+"degree":"B.Sc. MLT",
+"year":"2021",
+"seat_no":"1707301007"}
+
+{"university_name":"satavahana university karimnagar",
+"degree":"B.A. B.Com B.Sc. Year Wise Scheme",
+"year":"2015",
+"seat_no":"717112401020"}
+
+{"university_name":"jawaharlal nehru technological university hyderabad",
+"degree":"B.Tech.",
+"year":"2014",
+"seat_no":"10E11A0242"}
+
+{"university_name":"osmania university hyderabad",
+"degree":"B.Com. (CBCS)",
+"year":"2021",
+"seat_no":"211718402006"}
+
+
+************errors********
+{"university_name":"telangana university nizamabad",
+"degree":"B.Sc. (YWS)",
+"year":"2023",
+"seat_no":"19055026445059"}
+
+{
+    "error_message": "HTTPConnectionPool(host='localhost', port=54587): Max retries exceeded with url: /session/d17c980a829c8148f0b664d2b1d95fd6/screenshot (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001CA0A4642E0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "message": "An error occurred during form submission. Please try again later.",
+    "status": false
+}
